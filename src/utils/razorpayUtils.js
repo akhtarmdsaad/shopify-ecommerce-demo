@@ -1,8 +1,9 @@
 const verifyPayment = async (razorpay_payment_id, razorpay_order_id, razorpay_signature) => {
     // const { orderId, paymentId, signature } = req.body; in server.js
     console.log('[razorpayUtils] Verifying payment with:', { razorpay_order_id, razorpay_payment_id, razorpay_signature });
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
     try {
-        const response = await fetch('http://localhost:4000/verify-payment', {
+        const response = await fetch(`${backendUrl}/verify-payment`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -28,7 +29,7 @@ const verifyPayment = async (razorpay_payment_id, razorpay_order_id, razorpay_si
 
 const createOrder = async ({amount, currency}) => {
     try {
-        const response = await fetch('http://localhost:4000/create-order', {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/create-order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

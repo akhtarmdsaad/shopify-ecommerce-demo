@@ -13,6 +13,8 @@ const Navbar = () => {
   React.useEffect(() => {
     setCartCount(cartQuantity);
   }, [cartQuantity]);
+
+
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -27,18 +29,19 @@ const Navbar = () => {
           <li>
             <a href="/cart" className="text-white hover:text-gray-300">Cart{ cartCount > 0 && <span className="ml-1 bg-red-500 text-white rounded-full px-2">{cartCount}</span>}</a>
           </li>
-          <li>
-            <a onClick={
-                () => {
-                    localStorage.removeItem('user');
-                    window.location.href = '/login';
-                }
-            } className="text-white hover:text-gray-300">Logout</a>
-          </li>
+            {window.location.pathname !== '/login' && 
+            <li>
+              <a onClick={
+                  () => {
+                      localStorage.removeItem('user');
+                      window.location.href = '/login';
+                  }
+              } className="text-white hover:text-gray-300">Logout</a>
+            </li>}
         </ul>
       </div>
     </nav>
   )
 }
 
-export default Navbar
+export default Navbar;

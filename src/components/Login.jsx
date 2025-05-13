@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
-  console.log(import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN);
   const handleLogin = () => {
     localStorage.setItem('user', 'testUser');
     navigate('/products');

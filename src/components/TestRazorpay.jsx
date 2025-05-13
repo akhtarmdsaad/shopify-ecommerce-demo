@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { createOrder, verifyPayment } from '../utils/razorpayUtils.js';
 
@@ -21,16 +22,15 @@ const TestRazorpay = () => {
           name: 'Test Payment',
           order_id: data.id,
           handler: function (response) {
-            alert("Payment Successful!");
-            console.log("Payment ID:", response.razorpay_payment_id);
-            console.log("Order ID:", response.razorpay_order_id);
-            console.log("Signature:", response.razorpay_signature);
-            localStorage.setItem('razorpay_payment_id', response.razorpay_payment_id);
-            localStorage.setItem('razorpay_order_id', response.razorpay_order_id);
-            localStorage.setItem('razorpay_signature', response.razorpay_signature);
+            // alert("Payment Successful!");
+            toast.success("Payment Successful!");
+            // console.log("Payment ID:", response.razorpay_payment_id);
+            // console.log("Order ID:", response.razorpay_order_id);
+            // console.log("Signature:", response.razorpay_signature);
 
             setRazorpayData({
               id: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id,
               amount: data.amount,
               currency: data.currency,
               status: "Success",
@@ -54,21 +54,24 @@ const TestRazorpay = () => {
         const razorpay = new window.Razorpay(options);
         razorpay.open();
         razorpay.on('payment.failed', function (response) {
-          alert("Payment Failed!");
-          console.log("Error Code:", response.error.code);
-          console.log("Error Description:", response.error.description);
-          console.log("Error Source:", response.error.source);
-          console.log("Error Step:", response.error.step);
-          console.log("Error Reason:", response.error.reason);
-          console.log("Error Metadata:", response.error.metadata);
+          toast.error("Payment Failed!");
+          // console.log("Error Code:", response.error.code);
+          // console.log("Error Description:", response.error.description);
+          // console.log("Error Source:", response.error.source);
+          // console.log("Error Step:", response.error.step);
+          // console.log("Error Reason:", response.error.reason);
+          // console.log("Error Metadata:", response.error.metadata);
         });
         setRazorpayData(data);
       } else {
-        alert('Failed to create order');
+        // alert('Failed to create order');
+        toast.error('Failed to create order');
+        console.error('Failed to create order:', data);
       }
     } catch (error) {
       console.error('Error creating order:', error);
-      alert('An error occurred while creating the order.');
+      toast.error('An error occurred while creating the order.');
+      // alert('An error occurred while creating the order.');
     }
   };
 
@@ -98,23 +101,33 @@ const TestRazorpay = () => {
             style={{ cursor: 'pointer', opacity: 1 }}
           >
             <button
-              onClick={() => setRazorpayData(null)}
+              onClick={() => {
+                setRazorpayData(null)
+                setRazorpayPaymentVerified(false);
+                toast.info("Payment data reset.");
+              }}
               className="mt-2 bg-red-500 text-white px-4 py-2 rounded"
             >
               Reset
             </button>
             <button 
               onClick={async () => {
-                const paymentId = localStorage.getItem('razorpay_payment_id');
-                const orderId = localStorage.getItem('razorpay_order_id');
-                const signature = localStorage.getItem('razorpay_signature');
+                if (!razorpayData) {
+                  console.error("No payment data available to verify.");
+                  return;
+                }
+                const paymentId = razorpayData.id;
+                const orderId = razorpayData.orderId;
+                const signature = razorpayData.signature;
                 console.log("[TestRazorpay] Verifying payment with:", { paymentId, orderId, signature });
                 const data = await verifyPayment(paymentId, orderId, signature);
                 if (data.success) {
-                  alert("Payment verified successfully!");
+                  // alert("Payment verified successfully!");
+                  toast.success("Payment verified successfully!");
                   setRazorpayPaymentVerified(true);
                 } else {
-                  alert("Payment verification failed!");
+                  // alert("Payment verification failed!");
+                  toast.error("Payment verification failed!");
                   setRazorpayPaymentVerified(false);
                 }
               }

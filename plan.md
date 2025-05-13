@@ -49,15 +49,15 @@
 - [x] Capture the order ID and display order confirmation details.
 
 7. Razorpay Integration
-- [ ] Set Up Razorpay Account:
-- [ ] Sign up on Razorpay and complete the KYC process.
-- [ ] Generate API Keys:
-- [ ] Obtain your Key ID and Key Secret from the Razorpay dashboard.
-- [ ] Integrate Razorpay Checkout:
-- [ ] Use Razorpay’s Checkout.js to open the payment modal.
-- [ ] Pass necessary details like amount, currency, and order ID.
-- [ ] Handle Payment Success/Failure:
-- [ ] On successful payment, verify the payment signature on your server.
+- [x] Set Up Razorpay Account:
+- [x] Sign up on Razorpay and complete the KYC process.
+- [x] Generate API Keys:
+- [x] Obtain your Key ID and Key Secret from the Razorpay dashboard.
+- [x] Integrate Razorpay Checkout:
+- [x] Use Razorpay’s Checkout.js to open the payment modal.
+- [x] Pass necessary details like amount, currency, and order ID.
+- [x] Handle Payment Success/Failure:
+- [x] On successful payment, verify the payment signature on your server.
 - [ ] Update order status accordingly.
 
 8. Order Confirmation
