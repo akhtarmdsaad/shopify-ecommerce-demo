@@ -188,11 +188,8 @@ const Cart = () => {
                                                 transition-colors duration-200 
                                                 flex items-center justify-center"
                                             onClick={() => {
-                                                alert('please enter "saad" as password');
-                                                let string = "set email -> abc@example.com\n and card number as 1 -> success\n2 -> failure. any random data on other fields."
-                                                alert(string)
                                                 setTimeout(()=>window.location.href = cart.checkoutUrl, 1000)
-                                                createCart();
+                                                // createCart();
                                             }
                                             }
                                         >

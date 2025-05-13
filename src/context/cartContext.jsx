@@ -100,6 +100,14 @@ export const CartProvider = ({ children }) => {
       console.error("Error fetching cart:", res.data.errors);
       return;
     }
+    const cart = res.data.data.cart;
+    if (!cart) {
+      console.error("Cart not found. Creating a new cart.");
+      const newCart = await createCart();
+      return newCart;
+    }
+    setCartId(cart.id);
+    localStorage.setItem("shopify_cart_id", cart.id);
     setCart(res.data.data.cart);
     setLoading(false);
   };
@@ -204,46 +212,6 @@ export const CartProvider = ({ children }) => {
 
   // 🛒 Update item quantity
   const updateLineItem = async (lineId, quantity) => {
-    /*const query = `
-      query {
-        cart(id: "${id}") {
-          id
-          checkoutUrl
-          totalQuantity
-          lines(first: 10) {
-            edges {
-              node {
-                id
-                quantity
-                merchandise {
-                  ... on ProductVariant {
-                    id
-                    title
-                    priceV2 {
-                      amount
-                      currencyCode
-                    }
-                    product {
-                      title
-                      handle
-                      images(first: 1) {
-                        edges {
-                          node {
-                            id
-                            src
-                            altText
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `;*/
     const mutation = `
       mutation {
         cartLinesUpdate(cartId: "${cartId}", lines: [{
