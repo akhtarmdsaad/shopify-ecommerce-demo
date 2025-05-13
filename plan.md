@@ -41,12 +41,12 @@
 - [x] Store cart ID in localStorage to maintain cart state across sessions.
 
 6. Checkout Process
-- [ ] Initiate Checkout:
-- [ ] Use the checkoutCreate mutation to start the checkout process.
-- [ ] Redirect users to the checkout.webUrl provided in the response.
-- [ ] Handle Checkout Completion:
-- [ ] After payment, Shopify will redirect users back to your site.
-- [ ] Capture the order ID and display order confirmation details.
+- [x] Initiate Checkout:
+- [x] Use the checkoutCreate mutation to start the checkout process.
+- [x] Redirect users to the checkout.webUrl provided in the response.
+- [x] Handle Checkout Completion:
+- [x] After payment, Shopify will redirect users back to your site.
+- [x] Capture the order ID and display order confirmation details.
 
 7. Razorpay Integration
 - [ ] Set Up Razorpay Account:

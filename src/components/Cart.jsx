@@ -87,7 +87,7 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
 };
 
 const Cart = () => {
-    const { cart, loading, removeFromCart, updateLineItem } = useCart();
+    const { cart, loading, removeFromCart, updateLineItem, createCart } = useCart();
     const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate();
 
@@ -187,6 +187,14 @@ const Cart = () => {
                                                 text-white font-semibold py-3 rounded-lg 
                                                 transition-colors duration-200 
                                                 flex items-center justify-center"
+                                            onClick={() => {
+                                                alert('please enter "saad" as password');
+                                                let string = "set email -> abc@example.com\n and card number as 1 -> success\n2 -> failure. any random data on other fields."
+                                                alert(string)
+                                                setTimeout(()=>window.location.href = cart.checkoutUrl, 1000)
+                                                createCart();
+                                            }
+                                            }
                                         >
                                             Proceed to Checkout
                                         </button>

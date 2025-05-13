@@ -55,6 +55,7 @@ const Products = () => {
     const [error, setError] = useState(null);
     const [page, setPage] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
+    const [showOnlyAvailable, setShowOnlyAvailable] = useState(false);
     const MAX_ITEMS_PER_PAGE = 3;
 
     const user = localStorage.getItem('user');
@@ -188,11 +189,24 @@ const Products = () => {
 return (
     <div className="products-container p-6 bg-gray-100 min-h-screen">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Products</h1>
+        {/* toggle button for available products */}
+        <div className="flex items-center mb-4">
+            <input
+                type="checkbox"
+                id="showOnlyAvailable"
+                checked={showOnlyAvailable}
+                onChange={(e) => setShowOnlyAvailable(e.target.checked)}
+                className="mr-2"
+            />
+            <label htmlFor="showOnlyAvailable" className="text-gray-700">Show only available products</label>
+        </div>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.edges.slice((page - 1) * MAX_ITEMS_PER_PAGE, page * MAX_ITEMS_PER_PAGE).map((product) => (
-                <li key={product.node.id} className="mb-4">
-                    <ProductCard product={product.node} />
-                </li>
+                (!showOnlyAvailable || product.node.availableForSale) && (
+                    <li key={product.node.id} className="mb-4">
+                        <ProductCard product={product.node} />
+                    </li>
+                )
             ))}
         </ul>
         <div className="pagination-controls flex justify-between mt-6">
