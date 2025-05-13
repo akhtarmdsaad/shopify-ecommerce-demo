@@ -19,6 +19,9 @@ const Navbar = () => {
         <div className="text-white text-lg font-bold">MyShop</div>
         <ul className="flex space-x-4">
           <li>
+            <a href="/test_razorpay" className="text-white hover:text-gray-300">Test Razorpay</a>
+          </li>
+          <li>
             <a href="/products" className="text-white hover:text-gray-300">Products</a>
           </li>
           <li>
