@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 const verifyPayment = async (razorpay_payment_id, razorpay_order_id, razorpay_signature) => {
     // const { orderId, paymentId, signature } = req.body; in server.js
     console.log('[razorpayUtils] Verifying payment with:', { razorpay_order_id, razorpay_payment_id, razorpay_signature });
@@ -18,12 +20,15 @@ const verifyPayment = async (razorpay_payment_id, razorpay_order_id, razorpay_si
         const data = await response.json();
         if (data.success) {
         console.log("Payment verified successfully:", data);
+        toast.success("Payment verified successfully");
         } else {
         console.error("Payment verification failed:", data);
+        toast.error("Payment verification failed");
         }
         return data;
     } catch (error) {
         console.error("Error verifying payment:", error);
+        toast.error("Error verifying payment");
     }
     }
 
@@ -41,6 +46,7 @@ const createOrder = async ({amount, currency}) => {
         return data;
     } catch (error) {
         console.error("Error creating order:", error);
+        toast.error("Error creating order");
     }
 }
 

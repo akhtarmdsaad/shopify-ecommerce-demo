@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import {useCart} from '../context/cartContext'; 
+import { toast } from 'react-toastify';
 
 const ProductCard = ({ product }) => {
 
@@ -13,7 +14,8 @@ const ProductCard = ({ product }) => {
             // alert('Product added to cart'); // use toast instead
         } catch (error) {
             console.error('Error adding product to cart:', error);
-            alert('Error adding product to cart');
+            // alert('Error adding product to cart');
+            toast.error('Error adding product to cart');
         } finally {
             setLoading(false);
         }
@@ -152,6 +154,7 @@ const Products = () => {
             }
             catch (error) {
                 console.error('Error fetching products:', error);
+                toast.error('Error fetching products');
                 setError(error);
                 setLoading(false);
             }

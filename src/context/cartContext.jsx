@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const CartContext = createContext();
@@ -48,6 +49,7 @@ export const CartProvider = ({ children }) => {
       return newCart;
     } catch (error) {
       console.error("Error creating cart:", error);
+      toast.error("Error creating cart");
     } finally {
       setLoading(false);
     }
@@ -99,6 +101,7 @@ export const CartProvider = ({ children }) => {
       const res = await axios.post(API_URL, { query }, { headers });
       if (res.data.errors) {
         console.error("Error fetching cart:", res.data.errors);
+        toast.error("Error fetching cart");
         return;
       }
       const cart = res.data.data.cart;
@@ -112,6 +115,7 @@ export const CartProvider = ({ children }) => {
       setCart(cart);
     } catch (error) {
       console.error("Error fetching cart:", error);
+      toast.error("Error fetching cart");
     } finally {
       setLoading(false);
     }
@@ -160,6 +164,7 @@ export const CartProvider = ({ children }) => {
       setCart(res.data.data.cartLinesAdd.cart);
     } catch (error) {
       console.error("Error adding to cart:", error);
+      toast.error("Error adding to cart");
     } finally {
       setLoading(false);
     }
@@ -214,6 +219,7 @@ export const CartProvider = ({ children }) => {
       setCart(res.data.data.cartLinesRemove.cart);
     } catch (error) {
       console.error("Error removing from cart:", error);
+      toast.error("Error removing from cart");
     } finally {
       setLoading(false);
     }
@@ -270,11 +276,13 @@ export const CartProvider = ({ children }) => {
       const res = await axios.post(API_URL, { query: mutation }, { headers });
       if (res.data.errors) {
         console.error("Error updating line item:", res.data.errors);
+        toast.error("Error updating line item");
         return;
       }
       setCart(res.data.data.cartLinesUpdate.cart);
     } catch (error) {
       console.error("Error updating line item:", error);
+      toast.error("Error updating line item");
     } finally {
       setLoading(false);
     }

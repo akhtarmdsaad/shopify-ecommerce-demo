@@ -114,6 +114,7 @@ const TestRazorpay = () => {
               onClick={async () => {
                 if (!razorpayData) {
                   console.error("No payment data available to verify.");
+                  toast.error("No payment data available to verify.");
                   return;
                 }
                 const paymentId = razorpayData.id;
