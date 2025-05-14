@@ -41,9 +41,9 @@ const ProductCard = ({ product }) => {
             <p className={`text-sm mb-4 ${product.availableForSale ? 'text-green-600' : 'text-red-600'}`}>
                 Available: {product.availableForSale ? 'Yes' : 'No'}
             </p>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={() => addToCartFromButton(product.variants.edges[0].node.id)}
-                disabled={loading}
+                disabled={loading || !product.availableForSale}
             >
                 Add to Cart
             </button>
@@ -198,18 +198,28 @@ return (
                 type="checkbox"
                 id="showOnlyAvailable"
                 checked={showOnlyAvailable}
-                onChange={(e) => setShowOnlyAvailable(e.target.checked)}
+                onChange={(e) => {
+                    setShowOnlyAvailable(e.target.checked)
+                    setPage(1);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setTotalCount(e.target.checked ? products.edges.filter(product => product.node.availableForSale).length : products.edges.length);
+                }}
                 className="mr-2"
             />
             <label htmlFor="showOnlyAvailable" className="text-gray-700">Show only available products</label>
         </div>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.edges.slice((page - 1) * MAX_ITEMS_PER_PAGE, page * MAX_ITEMS_PER_PAGE).map((product) => (
+            {!showOnlyAvailable && products.edges.slice((page - 1) * MAX_ITEMS_PER_PAGE, page * MAX_ITEMS_PER_PAGE).map((product) => (
                 (!showOnlyAvailable || product.node.availableForSale) && (
                     <li key={product.node.id} className="mb-4">
                         <ProductCard product={product.node} />
                     </li>
                 )
+            ))}
+            {showOnlyAvailable && products.edges.filter(product => product.node.availableForSale).slice((page - 1) * MAX_ITEMS_PER_PAGE, page * MAX_ITEMS_PER_PAGE).map((product) => (
+                <li key={product.node.id} className="mb-4">
+                    <ProductCard product={product.node} />
+                </li>
             ))}
         </ul>
         <div className="pagination-controls flex justify-between mt-6">
